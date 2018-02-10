@@ -1,12 +1,10 @@
 import React, { Component } from 'react';
 import loadjs from 'loadjs';
-// import { connect } from 'react-redux';
-// import { fetchMail } from '../actions';
 
 import EmailListing from './email-list';
 
-const CLIENT_ID = "811270220529-3902tdmd6ctkfp6asgof82ve7sqsd82g.apps.googleusercontent.com";
-const API_KEY = "AIzaSyA56hafbNOeQXb8r88SpmDRPBmYk_212xs";
+const CLIENT_ID = "<your-client-id>";
+const API_KEY = "<your-api-key>";
 const SCOPES = ['https://www.googleapis.com/auth/gmail.readonly', 'https://www.googleapis.com/auth/gmail.labels', 'https://www.googleapis.com/auth/gmail.modify'];
 const DISCOVERY_DOCS = ["https://www.googleapis.com/discovery/v1/apis/gmail/v1/rest"];
 
@@ -28,8 +26,6 @@ class MailList extends Component {
 
 	loadGmailApi(){
 		gapi.client.load('gmail', 'v1', () => {
-
-			// this.props.fetchMail();
 			this.setState({showAuthorise: false});
 		});
 
@@ -45,7 +41,6 @@ class MailList extends Component {
 	}
 
 	handleAuthResult(authResult){
-		// console.log(authResult);
     	if(authResult && !authResult.error) {
 
           	localStorage.setItem('user', JSON.stringify(authResult));
@@ -57,7 +52,6 @@ class MailList extends Component {
 	}
 
 	checkAuth(){
-		// console.log('checking auth');
 		gapi.auth.authorize({
           	client_id: CLIENT_ID,
           	scope: SCOPES,
@@ -66,10 +60,6 @@ class MailList extends Component {
 	}
 
 	handleLoad(){
-		// console.log('checking handle');
-		// console.log(gapi);
-		// console.log(API_KEY);
-
 		gapi.client.setApiKey(API_KEY);
 		window.setTimeout(this.checkAuth, 1);
 	}
@@ -79,12 +69,7 @@ class MailList extends Component {
 			this.handleLoad();
 		}
 
-		loadjs('https://apis.google.com/js/client.js?onload=handleGoogleClientLoad', {
-			// success: () => {
-			// 	console.log('loaded');
-			// 	window.setTimeout(this.handleLoad(), 1000);
-			// }
-		});
+		loadjs('https://apis.google.com/js/client.js?onload=handleGoogleClientLoad', {});
 	}
 
 	render() {
@@ -100,7 +85,6 @@ class MailList extends Component {
 				}
 
 				{ !this.state.showAuthorise &&
-					// <EmailListing mails={this.props.mails} />
 					<EmailListing />
 				}
 
@@ -109,12 +93,4 @@ class MailList extends Component {
 	}
 }
 
-// function mapStatetoProps(state){
-// 	return { 
-// 		mails: state.mails,
-// 		// messages: state.messages
-// 	};
-// }
-
-// export default connect(mapStatetoProps, { fetchMail })(MailList);
 export default MailList;
